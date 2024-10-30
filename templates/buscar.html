@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Buscar Recibos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h2 {
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .no-resultados {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Buscar Recibos</h1>
+    <form method="post">
+        <input type="text" name="texto_buscar" placeholder="Ingrese texto a buscar" required>
+        <button type="submit">Buscar</button>
+    </form>
+    
+    <h2>Resultados:</h2>
+    {% if resultados %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Contenido</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for id, nombre, contenido in resultados %}
+                    <tr>
+                        <td>{{ id }}</td>
+                        <td>{{ nombre }}</td>
+                        <td><pre>{{ contenido }}</pre></td>
+                        <td><a href="{{ url_for('descargar', recibo_id=id) }}">Descargar PDF</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="no-resultados">No se encontraron resultados.</p>
+    {% endif %}
+    
+    <a href="/">Subir otro PDF</a>
+</body>
+</html>
